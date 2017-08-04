@@ -22,7 +22,7 @@ namespace AK.Net.Todo.Data.Migrations
             //
             context.Todos.AddOrUpdate(
               p => p.Name,
-              new Todo { Name= "Start Learning API" },
+              new Todo { Name= "Start Learning API-1" },
               new Todo { Name= "Do quick tutorial" },
               new Todo { Name= "Create more APIs" }
             );
