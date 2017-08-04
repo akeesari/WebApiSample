@@ -18,14 +18,30 @@ namespace AK.Net.Todo.Api.Models
             return userIdentity;
         }
     }
-
+    //public class ApplicationDbInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
+    //{
+    //    protected override void Seed(ApplicationDbContext context)
+    //    {
+    //        base.Seed(context);
+    //    }
+    //}
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            //Database.SetInitializer(new ApplicationDbInitializer<ApplicationDbContext>());
+
         }
-        public DbSet<Client> Clients { get; set; }
+        //static ApplicationDbContext()
+        //{
+        //    Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+        //}
+        public DbSet<Client> Client { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

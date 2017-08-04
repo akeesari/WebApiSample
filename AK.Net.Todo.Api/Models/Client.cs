@@ -8,6 +8,9 @@ namespace AK.Net.Todo.Api.Models
         [Key]
         public string Id { get; set; }
 
+        //[Required]
+        public string ClientId { get; set; }
+
         [Required]
         public string Secret { get; set; }
 
@@ -18,14 +21,16 @@ namespace AK.Net.Todo.Api.Models
         public ApplicationType ApplicationType { get; set; }
 
         public bool Active { get; set; }
+
         public int RefreshTokenLifeTime { get; set; }
 
         [MaxLength(100)]
+        [Required]
         public string AllowedOrigin { get; set; }
 
         public OAuthGrant AllowedGrant { get; set; }
 
-        public DateTimeOffset CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
     }
     public enum ApplicationType
     {

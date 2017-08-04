@@ -242,6 +242,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migration\201708040948242_Migration.cs" />
+    <Compile Include="Migration\201708040948242_Migration.Designer.cs">
+      <DependentUpon>201708040948242_Migration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migration\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Client.cs" />
@@ -329,6 +334,11 @@
       <Project>{c657511d-4462-49b9-84d2-1af8cf0ab399}</Project>
       <Name>AK.Net.Todo.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migration\201708040948242_Migration.resx">
+      <DependentUpon>201708040948242_Migration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
