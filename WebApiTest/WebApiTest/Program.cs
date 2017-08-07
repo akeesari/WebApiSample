@@ -14,10 +14,23 @@ namespace WebApiTest
         
         public static void Main(string[] args)
         {
-            TestTodoAPI();
+            TestClient();
+
             Console.WriteLine("Enter any key to exit:");
             Console.ReadLine();
 
+        }
+        private static void TestTodo()
+        {
+            var TestTodo = new TestTodo();
+            TestTodo.TestTodoApi();
+        }
+        private static void TestClient()
+        {
+            var test = new TestClient();
+            //test.GetClients();
+            //test.GetClient();
+            test.AddClient();
         }
     }
 }

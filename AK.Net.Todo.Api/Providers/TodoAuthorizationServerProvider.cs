@@ -38,7 +38,7 @@ namespace Axa.Ppp.Dha.Api.Providers
                 {
                     var client = await dbContext
                         .Client
-                        .FirstOrDefaultAsync(clientEntity => clientEntity.Id == clientId);
+                        .FirstOrDefaultAsync(clientEntity => clientEntity.ClientId == clientId);
                     //Check if the client is registered
                     if (client == null)
                     {

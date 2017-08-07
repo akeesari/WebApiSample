@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AK.Net.Todo.Api.Models
+namespace WebApiTest
 {
     public class Client
     {
@@ -37,8 +41,10 @@ namespace AK.Net.Todo.Api.Models
     public enum ApplicationType
     {
         JavaScript = 0,
-        NativeConfidential = 1,
-        Mvc = 2
+        AngularJS = 2,
+        NativeConfidential = 3,
+        Mvc = 4,
+        Console = 5
     };
     public enum OAuthGrant
     {

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityModel.Client;
@@ -23,8 +25,17 @@ namespace WebApiTest
             }
             
         }
+        protected HttpClient GetHttpClient()
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("http://localhost:38917/");
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            
+            return httpClient;
 
 
+        }
         protected  void GetClientCredentials()
         {
             var clientCredentials = new ClientCredentials

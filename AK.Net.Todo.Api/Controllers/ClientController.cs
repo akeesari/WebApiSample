@@ -16,13 +16,14 @@ using AK.Net.Todo.Api.Models;
 namespace Axa.Ppp.Dha.Api.Controllers
 {
     [RoutePrefix("api/client")]
-    [Authorize]
+    //[Authorize]
     //[Authorize(Roles = "Admin")]
     public class ClientController : BaseApiController
     {
         private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
 
         // GET: api/client
+        [Route("GetClients")]
         public IQueryable<Client> GetClients()
         {
             return _dbContext.Client;
@@ -30,7 +31,8 @@ namespace Axa.Ppp.Dha.Api.Controllers
 
         // GET: api/client/5
         [ResponseType(typeof(Client))]
-        public async Task<IHttpActionResult> GetClient(string id)
+        [Route("getclient")]
+        public async Task<IHttpActionResult> GetClient(int id)
         {
             var client = await _dbContext.Client.FindAsync(id);
             if (client == null)
@@ -81,12 +83,7 @@ namespace Axa.Ppp.Dha.Api.Controllers
         [ResponseType(typeof(Client))]
         public async Task<IHttpActionResult> PostClient([FromBody] Client client)
         {
-
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
             if (ClientExists(client.Name))
             {
                 return Conflict();
@@ -95,6 +92,11 @@ namespace Axa.Ppp.Dha.Api.Controllers
             client.Secret = new PasswordHasher().HashPassword(client.Secret);
             client.CreatedOn = DateTime.Now.ToShortDateString();
             //client.RefreshTokenLifeTime = DateTime.Now.AddDays(30).ToString();
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _dbContext.Client.Add(client);
 
             try
