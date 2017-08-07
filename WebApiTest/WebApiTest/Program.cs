@@ -29,8 +29,9 @@ namespace WebApiTest
         {
             var test = new TestClient();
             //test.GetClients();
-            //test.GetClient();
-            test.AddClient();
+            //test.GetClient(2);
+            //test.AddClient();
+            test.UpdateClient(2);
         }
     }
 }

@@ -15,9 +15,9 @@ namespace WebApiTest
   public class TestClient : TestBase
     {
        
-        public void GetClient()
+        public void GetClient(int id)
         {
-            const string clientUrl = "api/client/getclient?id=1";
+            string clientUrl = "api/client/getclient?id=" + id;
 
             using (var httpClient = GetHttpClient())
             {
@@ -27,8 +27,6 @@ namespace WebApiTest
                 if (response.IsSuccessStatusCode)
                 {
                     var client = response.Content.ReadAsAsync<Client>().Result;
-
-                    Console.WriteLine("---------------------Calling GetClient------------------------");
                     Console.WriteLine("ClientId: {0}", client.ClientId);
                     
                 }            
@@ -81,33 +79,28 @@ namespace WebApiTest
                 }
             }
         }
-        public async Task UpdateClient()
+        public async Task UpdateClient(int id)
         {
+            string clientUrl = "api/client/getclient?id=" + id;
 
-            const string clientUrl= "api/client";
-
-            var client = new Client
-            {
-                Name = "ConsoleApp3",
-                AllowedOrigin = "https://localhost:port/app",
-                Secret = "abc@123",
-                ApplicationType = ApplicationType.Console,
-                Active = true,
-                AllowedGrant = OAuthGrant.ResourceOwner,
-                CreatedOn = DateTime.Now.ToShortDateString(),
-            };
-            //string jsonClient = new JavaScriptSerializer().Serialize(client);
             using (var httpClient = GetHttpClient())
             {
-                var response =await httpClient.PostAsJsonAsync(clientUrl, client);
-                response.EnsureSuccessStatusCode();
-                if (response.IsSuccessStatusCode)
+                var clientResponse = httpClient.GetAsync(clientUrl).Result;
+
+                Client client;
+                if (clientResponse.IsSuccessStatusCode)
                 {
-                    var responseBody = response.Content.ReadAsStringAsync();
-                    var newClient =  JsonConvert.DeserializeObject<Client>(responseBody.Result);
-                    Console.WriteLine("Client Name: {0}", client.Name);
+                    client = clientResponse.Content.ReadAsAsync<Client>().Result;
+                    client.Active= false;
+                    var postResponse = await httpClient.PutAsJsonAsync("api/client?name=" + client.Name, client);
+                    if (postResponse.IsSuccessStatusCode)
+                    {
+                        var responseBody = postResponse.Content.ReadAsStringAsync();
+                        var newClient = JsonConvert.DeserializeObject<Client>(responseBody.Result);
+                        Console.WriteLine("New Client Name: {0}", client.Active);
+                    }
                 }
-            }
+            }            
         }
     }
 }
