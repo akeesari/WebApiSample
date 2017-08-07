@@ -121,6 +121,7 @@ namespace Axa.Ppp.Dha.Api.Controllers
 
         // DELETE: api/client/5
         [ResponseType(typeof(Client))]
+        [Route("deleteclient")]
         public async Task<IHttpActionResult> DeleteClient(int id)
         {
             Client client = await _dbContext.Client.FindAsync(id);

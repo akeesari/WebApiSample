@@ -102,5 +102,24 @@ namespace WebApiTest
                 }
             }            
         }
+        public async Task DeleteClient(int id)
+        {
+            string getclientUrl = "api/client/getclient?id=" + id;
+            string deleteclientUrl = "api/client/deleteclient?id=" + id;
+
+            using (var httpClient = GetHttpClient())
+            {
+                var clientResponse = httpClient.GetAsync(getclientUrl).Result;
+
+                if (clientResponse.IsSuccessStatusCode)
+                {
+                    var postResponse = await httpClient.DeleteAsync(deleteclientUrl);
+                    if (postResponse.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine("------------------Deleted-------------------");
+                    }
+                }
+            }            
+        }
     }
 }

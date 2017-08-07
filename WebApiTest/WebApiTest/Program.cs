@@ -31,7 +31,8 @@ namespace WebApiTest
             //test.GetClients();
             //test.GetClient(2);
             //test.AddClient();
-            test.UpdateClient(2);
+            //test.UpdateClient(2);
+            //test.DeleteClient(5);
         }
     }
 }
