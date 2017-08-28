@@ -36,7 +36,7 @@ namespace AK.Net.Todo.Api
             {
                 TokenEndpointPath = new PathString("/oauth/token"),
                 Provider = new TodoAuthorizationServerProvider(),
-                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
+                //AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 // In production mode set AllowInsecureHttp = false
 #if DEBUG
@@ -46,7 +46,7 @@ namespace AK.Net.Todo.Api
 
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            //app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",

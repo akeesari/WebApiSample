@@ -34,17 +34,20 @@ namespace Axa.Ppp.Dha.Api.Providers
                     {
                         context.SetError("invalid_client", string.Format("Client '{0}' is not registered in the system.", clientId));
                         context.Rejected();
+                        return;
                     }
                     if (client != null && !client.Active)
                     {
                         context.SetError("invalid_clientId", "Client is inactive.");
                         context.Rejected();
+                        return;
                     }
-                    if (client != null && !string.Equals(client.AllowedOrigin, clientOrigin, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        context.SetError("invalid_clientId", "Client Origin is not valid.");
-                        context.Rejected();
-                    }
+                    //if (client != null && !string.Equals(client.AllowedOrigin, clientOrigin, StringComparison.CurrentCultureIgnoreCase))
+                    //{
+                    //    context.SetError("invalid_clientId", "Client Origin is not valid.");
+                    //    context.Rejected();
+                    //    return;
+                    //}
                     if (client != null &&
                         userManager.PasswordHasher.VerifyHashedPassword(
                             client.Secret, clientSecret) == PasswordVerificationResult.Success)
@@ -58,6 +61,7 @@ namespace Axa.Ppp.Dha.Api.Providers
                         // Client could not be validated.
                         context.SetError("invalid_client", "Client credentials are invalid.");
                         context.Rejected();
+                        return;
                     }
                 }
                 catch

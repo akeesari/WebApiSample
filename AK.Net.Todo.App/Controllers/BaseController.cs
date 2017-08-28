@@ -13,23 +13,23 @@ namespace AK.Net.Todo.App.Controllers
     {
         protected const string todoApiUrl = "api/todo";
 
-        protected HttpClient GetHttpClient()
-        {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://localhost:38917/");
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            return httpClient;
-        }
         //protected HttpClient GetHttpClient()
         //{
         //    var httpClient = new HttpClient();
         //    httpClient.BaseAddress = new Uri("http://localhost:38917/");
-        //    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
         //    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         //    httpClient.DefaultRequestHeaders.Accept.Clear();
         //    return httpClient;
         //}
+        protected HttpClient GetHttpClient()
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("http://localhost:38917/");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetAccessToken());
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            return httpClient;
+        }
 
         protected string GetAccessToken()
         {
