@@ -21,7 +21,7 @@ namespace AK.Net.Todo.App.Controllers
         // GET: TodoViewModels
         public async Task<ActionResult> Index()
         {
-            
+
             const string clientUrl = "api/todo";
 
             using (var httpClient = GetHttpClient())
@@ -29,33 +29,31 @@ namespace AK.Net.Todo.App.Controllers
                 var response = httpClient.GetAsync(clientUrl).Result;
 
                 response.EnsureSuccessStatusCode();
-               var todos = response.Content.ReadAsAsync<List<TodoViewModel>>().Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    
-                    //foreach (var todo in todos)
-                    //{
-                    //    Console.WriteLine("ClientId: {0}", client.ClientId);
-                    //}
-                }
+                var todos = response.Content.ReadAsAsync<List<TodoViewModel>>().Result;
+                //if (response.IsSuccessStatusCode)
+                //{
+
+                //}
                 return View(todos);
             }
-            
+
         }
 
-        // GET: TodoViewModels/Details/5
+        // GET: Todo/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //TodoViewModel todoViewModel = await db.Todos.FindAsync(id);
-            //if (todoViewModel == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            return View(new TodoViewModel());
+            var todo = await GetTodo(id);
+
+            if (todo == null)
+            {
+                return HttpNotFound();
+            }
+            return View(todo);
         }
 
         // GET: TodoViewModels/Create
@@ -73,30 +71,55 @@ namespace AK.Net.Todo.App.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Todos.Add(todoViewModel);
-                //await db.SaveChangesAsync();
+
+                const string clientUrl = "api/todo";
+
+                using (var httpClient = GetHttpClient())
+                {
+                    var response = await httpClient.PostAsJsonAsync(clientUrl, todoViewModel);
+                    response.EnsureSuccessStatusCode();
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseBody = response.Content.ReadAsStringAsync();
+                        var newClient = JsonConvert.DeserializeObject<TodoViewModel>(responseBody.Result);
+                    }
+                }
                 return RedirectToAction("Index");
             }
-
             return View(todoViewModel);
         }
 
-        // GET: TodoViewModels/Edit/5
+        private async Task<TodoViewModel> GetTodo(int? id)
+        {
+            string clientUrl = "api/todo?id=" + id;
+            using (var httpClient = GetHttpClient())
+            {
+                var response = httpClient.GetAsync(clientUrl).Result;
+
+                response.EnsureSuccessStatusCode();
+                return response.Content.ReadAsAsync<TodoViewModel>().Result;
+            }
+        }
+
+        // GET: Todo/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TodoViewModel todoViewModel =  new TodoViewModel();
-            if (todoViewModel == null)
+            var todo = await GetTodo(id);
+
+            if (todo == null)
             {
                 return HttpNotFound();
             }
-            return View(todoViewModel);
+
+            return View(todo);
+
         }
 
-        // POST: TodoViewModels/Edit/5
+        // POST: Todo/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -105,46 +128,54 @@ namespace AK.Net.Todo.App.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(todoViewModel).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(todoViewModel);
-        }
+                //db.Entry(todoViewModel).State = EntityState.Modified;
+                //await db.SaveChangesAsync();
 
-        // GET: TodoViewModels/Delete/5
+                using (var httpClient = GetHttpClient())
+                {
+
+                    var postResponse = await httpClient.PutAsJsonAsync("api/todo?id=" + todoViewModel.Id, todoViewModel);
+                    if (postResponse.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+    
+
+        // GET: Todo/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TodoViewModel todoViewModel = new TodoViewModel();
-            if (todoViewModel == null)
+            var todo = await GetTodo(id);
+
+            if (todo == null)
             {
                 return HttpNotFound();
             }
-            return View(todoViewModel);
+
+            return View(todo);
         }
 
-        // POST: TodoViewModels/Delete/5
+        // POST: Todo/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            TodoViewModel todoViewModel = new TodoViewModel();
-            //db.Todos.Remove(todoViewModel);
-            //await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            string clientUrl = "api/todo?id=" + id;
+            using (var httpClient = GetHttpClient())
             {
-                db.Dispose();
+                var response = httpClient.DeleteAsync(clientUrl).Result;
+
+                response.EnsureSuccessStatusCode();
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
         }
+    
     }
 }
