@@ -21,7 +21,7 @@ namespace AK.Net.Todo.App.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("TodoIdentity", throwIfV1Schema: false)
         {
         }
 

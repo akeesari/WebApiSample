@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.Net.Todo.Data", "AK.Net.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.Net.Todo.Test", "AK.Net.Todo.Test\AK.Net.Todo.Test.csproj", "{A0E4CE17-1B9E-4890-8771-1B323CFDD331}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4CBDEB65-A757-4260-9E88-56AE468DEEBB}"
+	ProjectSection(SolutionItems) = preProject
+		MigrationCommands.txt = MigrationCommands.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

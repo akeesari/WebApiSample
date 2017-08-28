@@ -28,11 +28,11 @@ namespace AK.Net.Todo.Api.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("TodoIdentity", throwIfV1Schema: false)
         {
             //Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
             //Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
-            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
             //Database.SetInitializer(new ApplicationDbInitializer<ApplicationDbContext>());
 
         }

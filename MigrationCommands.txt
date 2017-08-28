@@ -1,0 +1,14 @@
+
+get-help enable-migrations –detailed
+
+step-1:
+
+Enable-Migrations -ContextTypeName ApplicationDbContext -MigrationsDirectory Migrations
+
+Add-Migration -Name ApplicationDbContext -ConfigurationTypeName AK.Net.Todo.Api.Migrations.Configuration
+
+Update-Database -ConfigurationTypeName AK.Net.Todo.Api.Migrations.Configuration –force
+
+Update-Database -ConfigurationTypeName AK.Net.Todo.Data.Migrations.Configuration –force
+
+http://www.mortenanderson.net/code-first-migrations-for-entity-framework

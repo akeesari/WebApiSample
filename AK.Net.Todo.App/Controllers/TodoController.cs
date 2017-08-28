@@ -16,17 +16,15 @@ namespace AK.Net.Todo.App.Controllers
 {
     public class TodoController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: TodoViewModels
         public async Task<ActionResult> Index()
         {
 
-            const string clientUrl = "api/todo";
+           
 
             using (var httpClient = GetHttpClient())
             {
-                var response = httpClient.GetAsync(clientUrl).Result;
+                var response = httpClient.GetAsync(todoApiUrl).Result;
 
                 response.EnsureSuccessStatusCode();
                 var todos = response.Content.ReadAsAsync<List<TodoViewModel>>().Result;
@@ -72,11 +70,10 @@ namespace AK.Net.Todo.App.Controllers
             if (ModelState.IsValid)
             {
 
-                const string clientUrl = "api/todo";
-
+                
                 using (var httpClient = GetHttpClient())
                 {
-                    var response = await httpClient.PostAsJsonAsync(clientUrl, todoViewModel);
+                    var response = await httpClient.PostAsJsonAsync(todoApiUrl, todoViewModel);
                     response.EnsureSuccessStatusCode();
                     if (response.IsSuccessStatusCode)
                     {

@@ -6,6 +6,8 @@ namespace AK.Net.Todo.App.Controllers
 {
     public abstract class BaseController : Controller
     {
+       protected const string todoApiUrl = "api/todo";
+
         protected HttpClient GetHttpClient()
         {
             var httpClient = new HttpClient();
