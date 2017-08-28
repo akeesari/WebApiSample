@@ -14,14 +14,12 @@ using System.Net;
 
 namespace AK.Net.Todo.App.Controllers
 {
+    [Authorize]
     public class TodoController : BaseController
     {
         // GET: TodoViewModels
         public async Task<ActionResult> Index()
         {
-
-           
-
             using (var httpClient = GetHttpClient())
             {
                 var response = httpClient.GetAsync(todoApiUrl).Result;

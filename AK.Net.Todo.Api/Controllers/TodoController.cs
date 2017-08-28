@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace AK.Net.Todo.Api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/todo")]
     public class TodoController : BaseApiController
     {

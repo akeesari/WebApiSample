@@ -13,22 +13,12 @@ namespace Axa.Ppp.Dha.Api.Providers
 {
     public class TodoAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
-        private readonly string _publicClientId;
-
-        public TodoAuthorizationServerProvider(string publicClientId)
-        {
-            if (publicClientId == null)
-            {
-                throw new ArgumentNullException("publicClientId");
-            }
-
-            _publicClientId = publicClientId;
-        }
+       
         public override async Task ValidateClientAuthentication( OAuthValidateClientAuthenticationContext context)
         {
             string clientId;
             string clientSecret;
-
+            var clientOrigin = context.Parameters.Get("origin");
             if (context.TryGetBasicCredentials(out clientId, out clientSecret))
             {
                 var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
@@ -48,6 +38,11 @@ namespace Axa.Ppp.Dha.Api.Providers
                     if (client != null && !client.Active)
                     {
                         context.SetError("invalid_clientId", "Client is inactive.");
+                        context.Rejected();
+                    }
+                    if (client != null && !string.Equals(client.AllowedOrigin, clientOrigin, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        context.SetError("invalid_clientId", "Client Origin is not valid.");
                         context.Rejected();
                     }
                     if (client != null &&
@@ -132,20 +127,20 @@ namespace Axa.Ppp.Dha.Api.Providers
                 context.Rejected();
             }
         }
-        public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
-        {
-            if (context.ClientId == _publicClientId)
-            {
-                Uri expectedRootUri = new Uri(context.Request.Uri, "/");
+        //public override Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
+        //{
+        //    if (context.ClientId == _publicClientId)
+        //    {
+        //        Uri expectedRootUri = new Uri(context.Request.Uri, "/");
 
-                if (expectedRootUri.AbsoluteUri == context.RedirectUri)
-                {
-                    context.Validated();
-                }
-            }
+        //        if (expectedRootUri.AbsoluteUri == context.RedirectUri)
+        //        {
+        //            context.Validated();
+        //        }
+        //    }
 
-            return Task.FromResult<object>(null);
-        }
+        //    return Task.FromResult<object>(null);
+        //}
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
             foreach (var property in context.Properties.Dictionary)
